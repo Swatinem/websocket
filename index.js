@@ -66,9 +66,9 @@ WebSocketWrapper.prototype._connect = function WebSocketWrapper__connect() {
 	}
 
 	socket.onmessage = function (message) { self.emit('message', message.data); };
-	socket.onopen = function () { self.emit('open'); };
-	socket.onclose = function () { self.emit('close'); };
-	socket.onerror = function (err) { self.emit('error', err); };
+	socket.onopen = function (e) { self.emit('open', e); };
+	socket.onclose = function (e) { self.emit('close', e); };
+	socket.onerror = function (e) { self.emit('error', e); };
 
 	this._socket = socket;
 	this._send = socket.send.bind(socket);
