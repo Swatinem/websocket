@@ -44,9 +44,13 @@ Object.defineProperty(WebSocketWrapper.prototype, 'readyState', {
 
 // wrap this for easier extensibility
 WebSocketWrapper.prototype.send = function WebSocketWrapper_send(msg) {
-	this._send(msg);
+	if (this.readyState === this.OPEN)
+		this._send(msg);
 };
 
+WebSocketWrapper.prototype.close = function WebSocketWrapper_close(code) {
+	this._close(code);
+};
 /**
  * Connect the websocket and hook up the events
  */
@@ -72,5 +76,6 @@ WebSocketWrapper.prototype._connect = function WebSocketWrapper__connect() {
 
 	this._socket = socket;
 	this._send = socket.send.bind(socket);
+	this._close = socket.close.bind(socket);
 };
 
